@@ -81,7 +81,7 @@ if ($type == "Category") {
     if ($usertype === 'Admin') {
         $page_name = removeHyphenNoSpace($topicName);
         $two_folders_above_file = "../pages/$page_name.php";
-        $sql = "DELETE FROM topics WHERE id = ?";
+        $sql = "DELETE * FROM topics WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if (!$stmt->execute()) {
@@ -90,7 +90,7 @@ if ($type == "Category") {
             $returnPath = returnPath();
             header('location: ' . $returnPath . 'pages/categories.php');
         }
-        $sql = "DELETE FROM meta_titles WHERE page_name = ?";
+        $sql = "DELETE * FROM meta_titles WHERE page_name = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $topicName);
         if ($stmt->execute()) {
@@ -106,7 +106,7 @@ if ($type == "Category") {
     } else if ($usertype === 'Editor') {
         $page_name = removeHyphenNoSpace($topicName);
         $two_folders_above_file = "../pages/$page_name.php";
-        $sql = "DELETE FROM topics WHERE id = ?";
+        $sql = "DELETE * FROM topics WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if (!$stmt->execute()) {
@@ -115,7 +115,7 @@ if ($type == "Category") {
             $returnPath = returnPath();
             header('location: ' . $returnPath . 'pages/categories.php');
         }
-        $sql = "DELETE FROM meta_titles WHERE page_name = ?";
+        $sql = "DELETE * FROM meta_titles WHERE page_name = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $topicName);
         if ($stmt->execute()) {
@@ -137,7 +137,7 @@ if ($type == "Resource") {
         $two_folders_above_file = "../pages/$resource_name.php";
         $sql = "DROP TABLE IF EXISTS `$table_name`";
         if ($conn->query($sql) === TRUE) {
-            $sql = "DELETE FROM resources WHERE id = ?";
+            $sql = "DELETE * FROM resources WHERE id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             if (!$stmt->execute()) {
@@ -145,7 +145,7 @@ if ($type == "Resource") {
                 $_SESSION['status'] = "Error, Please retry";
                 header('location: ../admin/edit/frontend_features.php');
             }
-            $sql = "DELETE FROM meta_titles WHERE page_name like ?";
+            $sql = "DELETE * FROM meta_titles WHERE page_name like ?";
             $searchTerm = "%" . $resource_name . "%";
             $stmt->bind_param("s", $searchTerm);
             if (!$stmt->execute()) {
@@ -179,7 +179,7 @@ if ($type == "Resource") {
                 $_SESSION['status'] = "Error, Please retry";
                 header('location: ../editor/edit/frontend_features.php');
             }
-            $sql = "DELETE FROM meta_titles WHERE page_name like ?";
+            $sql = "DELETE * FROM meta_titles WHERE page_name like ?";
             $searchTerm = "%" . $resource_name . "%";
             $stmt->bind_param("s", $searchTerm);
             if (!$stmt->execute()) {
@@ -203,7 +203,7 @@ if ($type == "Resource") {
 }
 if ($action == "deleteResource") {
     if ($usertype === 'Admin') {
-        $sql = "DELETE FROM $resourceFileType WHERE id = ?";
+        $sql = "DELETE * FROM $resourceFileType WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if (!$stmt->execute()) {
@@ -220,7 +220,7 @@ if ($action == "deleteResource") {
         $returnPath = returnPath();
         header('location: ' . $returnPath . ' edit/frontend_features.php');
     } else if ($usertype === 'Editor') {
-        $sql = "DELETE FROM $resourceFileType WHERE id = ?";
+        $sql = "DELETE * FROM $resourceFileType WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if (!$stmt->execute()) {
@@ -246,7 +246,7 @@ if ($type == "Page" && $usertype === 'Admin') {
     $two_folders_above_file = "../pages/$page_name.php";
     $sql = "DROP TABLE IF EXISTS `$table_name`";
     if ($conn->query($sql) === TRUE) {
-        $sql = "DELETE FROM pages WHERE id = ?";
+        $sql = "DELETE * FROM pages WHERE id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if (!$stmt->execute()) {
@@ -261,7 +261,7 @@ if ($type == "Page" && $usertype === 'Admin') {
         $status_type2 = $deleteAction2['status_type'];
         $status_type3 = $deleteAction3['status_type'];
         if ($status_type1 === 'Success' && $status_type2 === 'Success' && $status_type3 === 'Success') {
-            $sql = "DELETE FROM meta_titles WHERE page_name = ?";
+            $sql = "DELETE * FROM meta_titles WHERE page_name = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $pageName);
             if (!$stmt->execute()) {
