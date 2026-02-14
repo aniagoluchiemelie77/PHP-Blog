@@ -76,7 +76,7 @@ foreach ($results as $result) {
         }
     $max_length = 50;
         $id = $result['id'];
-        $title = $result["title"];
+    $title = $result["title"] ? $result["title"] : " ";
     $scheduleDate = !empty($result['schedule']) ? formatDateSafely($result['schedule']) : null;
     $postDate = !empty($result['Date']) ? formatDateSafely($result['Date']) : null;
     $now = date('Y-m-d H:i:s');

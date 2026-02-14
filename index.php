@@ -194,7 +194,7 @@ if (isset($_POST['subscribe_btn2'])) {
                     $readingTime = calculateReadingTime($row['content']);
                     if (!empty($row['admin_id'])) {
                         $admin_id = $row['admin_id'];
-                        $sql_admin = "SELECT id, firstname, lastname, image, bio FROM admin_login_info WHERE id = $admin_id";
+                        $sql_admin = "SELECT id, firstname, lastname, image, bio FROM admin_login_info WHERE admin_id = $admin_id";
                         $result_admin = $conn->query($sql_admin);
                         if ($result_admin->num_rows > 0) {
                             $admin = $result_admin->fetch_assoc();
@@ -207,7 +207,7 @@ if (isset($_POST['subscribe_btn2'])) {
                         }
                     } elseif (!empty($row['editor_id'])) {
                         $editor_id = $row['editor_id'];
-                        $sql_editor = "SELECT id, firstname, lastname, image, bio FROM editor WHERE id = $editor_id";
+                        $sql_editor = "SELECT id, firstname, lastname, image, bio FROM editor WHERE editor_id = $editor_id";
                         $result_editor = $conn->query($sql_editor);
                         if ($result_editor->num_rows > 0) {
                             $editor = $result_editor->fetch_assoc();

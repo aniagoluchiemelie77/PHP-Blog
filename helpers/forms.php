@@ -11,6 +11,11 @@ include('crudoperations.php');
 require('../init.php');
 $admin_base_url = "../admin/";
 $editor_base_url = "../editor/";
+if ($userType === 'Admin') {
+    $user = $_SESSION['admin_id'];
+} else {
+    $user = $_SESSION['editor_id'];
+}
 function errorPath(){
     global $admin_base_url;
     global $editor_base_url;
@@ -620,7 +625,7 @@ function updateEditorProfile($firstname, $lastname, $email, $username, $bio, $ad
         }
     }
 }
-function addEditor($firstname, $lastname, $email, $img, $password, $id)
+function addEditor($firstname, $lastname, $email, $img, $password, $user)
 {
     global $conn;
     global $admin_base_url;
@@ -628,8 +633,8 @@ function addEditor($firstname, $lastname, $email, $img, $password, $id)
     $time = date('H:i:s');
     $idtype = "Editor";
     $encrypted_password = password_hash($password, PASSWORD_BCRYPT);
-    $stmt = $conn->prepare("INSERT INTO editor (id, email, image, password, firstname, lastname, date_joined, time_joined, idtype) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issssssss", $id, $email, $img, $encrypted_password, $firstname, $lastname, $date, $time, $idtype);
+    $stmt = $conn->prepare("INSERT INTO editor ( email, image, password, firstname, lastname, date_joined, time_joined, idtype, admin_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("issssssss",  $email, $img, $encrypted_password, $firstname, $lastname, $date, $time, $idtype, $user);
     if ($stmt->execute()) {
         $content = "Admin " . $_SESSION['firstname'] . " created a new user (Editor)";
         $forUser = 0;
@@ -938,7 +943,7 @@ function addResources($tableName, $convertedPath, $resource_type, $resource_nich
         }
     }
 }
-function savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $schedule, $id, $author_firstname, $author_lastname, $author_bio, $post_type, $userType)
+function savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $schedule, $user, $author_firstname, $author_lastname, $author_bio, $post_type, $userType)
 {
     global $conn;
     global $admin_base_url;
@@ -961,7 +966,7 @@ function savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $
         if ($userType === 'Editor') {
             $sql = "INSERT INTO $post_type (editor_id, title, niche, image_path, Date, time, schedule, subtitle, link, content, authors_firstname, about_author, authors_lastname, idtype, is_favourite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             if ($query = $conn->prepare($sql)) {
-                $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
+                $query->bind_param("issssssssssssss", $user, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
                 if ($query->execute()) {
                     $post_id = $conn->insert_id;
                     $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
@@ -989,7 +994,7 @@ function savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $
         }else{
             $sql = "INSERT INTO $post_type (admin_id, title, niche, image_path, Date, time, schedule, subtitle, link, content, authors_firstname, about_author, authors_lastname, idtype, is_favourite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             if ($query = $conn->prepare($sql)) {
-                $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
+                $query->bind_param("issssssssssssss", $user, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
                 if ($query->execute()) {
                     $post_id = $conn->insert_id;
                     $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
@@ -1316,7 +1321,7 @@ function createCategory($category_name, $category_image, $userType)
         }
     }
 }
-function savePost2($title, $subtitle, $convertedPath, $content, $niche, $link, $schedule, $id, $author_firstname, $author_lastname, $author_bio, $post_type, $userType)
+function savePost2($title, $subtitle, $convertedPath, $content, $niche, $link, $schedule, $user, $author_firstname, $author_lastname, $author_bio, $post_type, $userType)
 {
     global $conn;
     global $admin_base_url;
@@ -1339,7 +1344,7 @@ function savePost2($title, $subtitle, $convertedPath, $content, $niche, $link, $
     if($userType === 'Editor'){
         $sql = "INSERT INTO $post_type (editor_id, title, niche, post_image_url, Date, time, schedule, subtitle, link, content, authors_firstname, about_author, authors_lastname, idtype, is_favourite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if ($query = $conn->prepare($sql)) {
-            $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
+            $query->bind_param("issssssssssssss", $user, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
             if ($query->execute()) {
                 $post_id = $conn->insert_id;
                 $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
@@ -1366,7 +1371,7 @@ function savePost2($title, $subtitle, $convertedPath, $content, $niche, $link, $
     }else{
         $sql = "INSERT INTO $post_type (admin_id, title, niche, post_image_url, Date, time, schedule, subtitle, link, content, authors_firstname, about_author, authors_lastname, idtype, is_favourite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if ($query = $conn->prepare($sql)) {
-            $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
+            $query->bind_param("issssssssssssss", $user, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
             if ($query->execute()) {
                 $post_id = $conn->insert_id;
                 $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
@@ -1392,7 +1397,7 @@ function savePost2($title, $subtitle, $convertedPath, $content, $niche, $link, $
         }
     }
 }
-function saveDraft($title, $subtitle, $imagePath, $content, $niche, $link, $id, $userType)
+function saveDraft($title, $subtitle, $imagePath, $content, $niche, $link, $user, $userType)
 {
     global $conn;
     global $admin_base_url;
@@ -1402,7 +1407,7 @@ function saveDraft($title, $subtitle, $imagePath, $content, $niche, $link, $id, 
     if ($imagePath !== null) {
         if($userType === 'Editor'){
             $stmt = $conn->prepare("INSERT INTO unpublished_articles (editor_id, title, subtitle, image, link, Date, time, niche, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("issssssss", $id, $title, $subtitle, $imagePath, $link, $date, $time, $niche, $content);
+            $stmt->bind_param("issssssss", $user, $title, $subtitle, $imagePath, $link, $date, $time, $niche, $content);
             if ($stmt->execute()) {
                 $content = "Editor " . $_SESSION['firstname'] . " added a draft";
                 $forUser = 0;
@@ -1419,7 +1424,7 @@ function saveDraft($title, $subtitle, $imagePath, $content, $niche, $link, $id, 
             }
         }else{
             $stmt = $conn->prepare("INSERT INTO unpublished_articles (admin_id, title, subtitle, image, link, Date, time, niche, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("issssssss", $id, $title, $subtitle, $imagePath, $link, $date, $time, $niche, $content);
+            $stmt->bind_param("issssssss", $user, $title, $subtitle, $imagePath, $link, $date, $time, $niche, $content);
             if ($stmt->execute()) {
                 $content = "Admin " . $_SESSION['firstname'] . " added a draft";
                 $forUser = 0;
@@ -1438,7 +1443,7 @@ function saveDraft($title, $subtitle, $imagePath, $content, $niche, $link, $id, 
     } else {
         if($userType === 'Editor'){
             $stmt = $conn->prepare("INSERT INTO unpublished_articles (editor_id, title, subtitle, link, Date, time, niche, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("isssssss", $id, $title, $subtitle, $link, $date, $time, $niche, $content);
+            $stmt->bind_param("isssssss", $user, $title, $subtitle, $link, $date, $time, $niche, $content);
             if ($stmt->execute()) {
                 $content = "Editor " . $_SESSION['firstname'] . " added a draft";
                 $forUser = 0;
@@ -1455,7 +1460,7 @@ function saveDraft($title, $subtitle, $imagePath, $content, $niche, $link, $id, 
             }
         }else{
             $stmt = $conn->prepare("INSERT INTO unpublished_articles (admin_id, title, subtitle, link, Date, time, niche, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("isssssss", $id, $title, $subtitle, $link, $date, $time, $niche, $content);
+            $stmt->bind_param("isssssss", $user, $title, $subtitle, $link, $date, $time, $niche, $content);
             if ($stmt->execute()) {
                 $content = "Admin " . $_SESSION['firstname'] . " added a draft";
                 $forUser = 0;
@@ -1791,7 +1796,7 @@ function updateWriterProfile($firstname, $lastname, $email, $bio, $imagePath, $i
         }
     }
 }
-function addWriter($firstname, $lastname, $email, $imagePath, $id, $userType)
+function addWriter($firstname, $lastname, $email, $imagePath, $user, $userType)
 {
     global $conn;
     global $admin_base_url;
@@ -1800,8 +1805,8 @@ function addWriter($firstname, $lastname, $email, $imagePath, $id, $userType)
     $time = date('H:i:s');
     $idtype = "Writer";
     if($userType === 'Editor'){
-        $stmt = $conn->prepare("INSERT INTO writer (id, firstname, lastname, email, image, date_joined, time_joined, idtype) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssssss", $id, $firstname, $lastname, $email, $imagePath, $date, $time, $idtype);
+        $stmt = $conn->prepare("INSERT INTO writer (editor_id, firstname, lastname, email, image, date_joined, time_joined, idtype) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssssss", $user, $firstname, $lastname, $email, $imagePath, $date, $time, $idtype);
         if ($stmt->execute()) {
             $content = "Editor " . $_SESSION['firstname'] . " created a new user (Writer)";
             $forUser = 0;
@@ -1817,8 +1822,8 @@ function addWriter($firstname, $lastname, $email, $imagePath, $id, $userType)
             exit();
         }
     }else{
-        $stmt = $conn->prepare("INSERT INTO writer (id, firstname, lastname, email, image, date_joined, time_joined, idtype) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssssss", $id, $firstname, $lastname, $email, $imagePath, $date, $time, $idtype);
+        $stmt = $conn->prepare("INSERT INTO writer (admin_id, firstname, lastname, email, image, date_joined, time_joined, idtype) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssssss", $user, $firstname, $lastname, $email, $imagePath, $date, $time, $idtype);
         if ($stmt->execute()) {
             $content = "Admin " . $_SESSION['firstname'] . " created a new user (Writer)";
             $forUser = 0;
@@ -1843,8 +1848,8 @@ function addUser($firstname, $lastname, $email,  $role, $linkedin_url, $imagePat
     $date = date('y-m-d');
     $time = date('H:i:s');
     if($userType === 'Editor'){
-        $stmt = $conn->prepare("INSERT INTO otherwebsite_users ( firstname, lastname, email, role, image, linkedin_url, date_joined, time_joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssss", $firstname, $lastname, $email, $role, $imagePath, $linkedin_url, $date, $time);
+        $stmt = $conn->prepare("INSERT INTO otherwebsite_users (editor_id, firstname, lastname, email, role, image, linkedin_url, date_joined, time_joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $user, $firstname, $lastname, $email, $role, $imagePath, $linkedin_url, $date, $time);
         if ($stmt->execute()) {
             $content = "Editor " . $_SESSION['firstname'] . " created a new user";
             $forUser = 0;
@@ -1860,8 +1865,8 @@ function addUser($firstname, $lastname, $email,  $role, $linkedin_url, $imagePat
             exit();
         }
     }else{
-        $stmt = $conn->prepare("INSERT INTO otherwebsite_users ( firstname, lastname, email, role, image, linkedin_url, date_joined, time_joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssssss", $firstname, $lastname, $email, $role, $imagePath, $linkedin_url, $date, $time);
+        $stmt = $conn->prepare("INSERT INTO otherwebsite_users (admin_id, firstname, lastname, email, role, image, linkedin_url, date_joined, time_joined) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssssss", $user, $firstname, $lastname, $email, $role, $imagePath, $linkedin_url, $date, $time);
         if ($stmt->execute()) {
             $content = "Admin " . $_SESSION['firstname'] . " created a new user";
             $forUser = 0;
@@ -2088,11 +2093,11 @@ if (isset($_POST['create_post'])) {
     $base_path = errorPath();
     if (empty($image1) && !empty($image2)) {
         $imagePath = $image2;
-        savePost2($title, $subtitle, $imagePath, $content, $niche, $link, $schedule, $id, $author_firstname, $author_lastname, $author_bio, $post_type, $userType);
+        savePost2($title, $subtitle, $imagePath, $content, $niche, $link, $schedule, $user, $author_firstname, $author_lastname, $author_bio, $post_type, $userType);
     } elseif (!empty($image1) && empty($image2)) {
         if ($_FILES['Post_Image1']['error'] === UPLOAD_ERR_OK && is_uploaded_file($tmpPath)) {
             $convertedPath = uploadToCloudinary($tmpPath);
-            savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $schedule, $id, $author_firstname, $author_lastname, $author_bio, $post_type, $userType);
+            savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $schedule, $user, $author_firstname, $author_lastname, $author_bio, $post_type, $userType);
         } else {
             $_SESSION['status_type'] = "Error";
             $_SESSION['status'] = "Uploaded file is missing or invalid.";
@@ -2191,7 +2196,7 @@ if (isset($_POST['create_draft'])) {
     }
     $filePath = $_FILES["Post_Image"]["tmp_name"];
     $convertedPath = uploadToCloudinary($filePath);
-    saveDraft($title, $subtitle, $convertedPath, $content, $niche, $link, $id, $userType);
+    saveDraft($title, $subtitle, $convertedPath, $content, $niche, $link, $user, $userType);
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_post'])) {
     $title = $_POST['Post_Title'];
@@ -2253,7 +2258,7 @@ if (isset($_POST['create_writer'])) {
     } else {
         $convertedPath = 'https://res.cloudinary.com/dbdw3zftx/image/upload/v1754775818/uploads/Avatar.png'; // If no image is uploaded, set path to null
     }
-    addWriter($firstname, $lastname, $email, $convertedPath, $id, $userType);
+    addWriter($firstname, $lastname, $email, $convertedPath, $user, $userType);
 }
 if (isset($_POST['create_user'])) {
     $firstname = $_POST['user_firstname'];
@@ -2391,7 +2396,7 @@ if (isset($_POST['create_editor'])) {
         } else {
             $convertedPath = 'https://res.cloudinary.com/dbdw3zftx/image/upload/v1754775818/uploads/Avatar.png';
         }
-        addEditor($firstname, $lastname, $email, $convertedPath, $password, $id);
+        addEditor($firstname, $lastname, $email, $convertedPath, $password, $user);
     } else {
         $_SESSION['status_type'] = "Error";
         $_SESSION['status'] = "Passwords do not match";

@@ -78,7 +78,7 @@ if (isset($_POST['subscribe_btn2'])) {
         if ($idtype == "Writer") {
             $database_name = "writer";
             $role = "Contributing Writer";
-            $authorTableHook = "authors_firstname";
+            $authorTableHook = "writer_id";
             renderAuthorPage($database_name, $id, $role, $authorTableHook);
         }
         ?>

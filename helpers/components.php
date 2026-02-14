@@ -1430,7 +1430,7 @@ if (!function_exists('renderPageFrontend')) {
                 </div>
                 <h3 class="bodyleft_main">' . $page_title . '</h3>
                 <div class="sidebar_divs_container thickdiv">';
-        $selectpage = "SELECT content FROM $table_name ORDER BY id DESC LIMIT 1";
+        $selectpage = "SELECT content FROM $table_name WHERE id = (SELECT MAX(id) FROM $table_name)";
         $selectpage_result = $conn->query($selectpage);
         if ($selectpage_result->num_rows > 0) {
             while ($row = $selectpage_result->fetch_assoc()) {
@@ -1445,12 +1445,9 @@ if (!function_exists('renderViewPost')) {
     function renderViewPost($tablename, $post_id, $url, $postIdVal)
     {
         global $conn;
-        $getposts_sql = " SELECT id,admin_id, editor_id, title, niche, content, subtitle, post_image_url, image_path, time, Date, schedule, authors_firstname, authors_lastname, about_author, link FROM " . $tablename . " WHERE id = " . $post_id . "";
+        $getposts_sql = " SELECT id, admin_id, editor_id, title, niche, content, subtitle, post_image_url, image_path, time, Date, schedule, authors_firstname, authors_lastname, about_author, link FROM " . $tablename . " WHERE id = " . $post_id . "";
         $getposts_result = $conn->query($getposts_sql);
         if ($getposts_result->num_rows > 0) {
-            $id_admin = '';
-            $id_editor = "";
-            $id_writer = "";
             $id_type = '';
             $author_bio = '';
             $author_firstname = '';
@@ -1468,7 +1465,7 @@ if (!function_exists('renderViewPost')) {
             $read_count = '';
             if (!empty($author3) && empty($author2) && empty($author1)) {
                 $admin_id = $row['admin_id'];
-                $sql_admin = "SELECT id, firstname, lastname, image, bio FROM admin_login_info WHERE id = $admin_id";
+                $sql_admin = "SELECT id, firstname, lastname, image, bio FROM admin_login_info WHERE admin_id = $admin_id";
                 $result_admin = $conn->query($sql_admin);
                 if ($result_admin->num_rows > 0) {
                     $admin = $result_admin->fetch_assoc();
@@ -1476,13 +1473,12 @@ if (!function_exists('renderViewPost')) {
                     $author_lastname = $admin['lastname'];
                     $author_image = $admin['image'];
                     $id_type = "Admin";
-                    $id_admin = $admin['id'];
                     $author_bio = $admin['bio'];
                     $role = "Editor-in-chief Uniquetechcontentwriter.com";
                 }
             } elseif (!empty($author2) && empty($author3) && empty($author1)) {
                 $editor_id = $row['editor_id'];
-                $sql_editor = "SELECT id, firstname, lastname, image, bio FROM editor WHERE id = $editor_id";
+                $sql_editor = "SELECT id, firstname, lastname, image, bio FROM editor WHERE editor_id = $editor_id";
                 $result_editor = $conn->query($sql_editor);
                 if ($result_editor->num_rows > 0) {
                     $editor = $result_editor->fetch_assoc();
@@ -1490,13 +1486,13 @@ if (!function_exists('renderViewPost')) {
                     $author_image = $editor['image'];
                     $author_lastname = $editor['lastname'];
                     $author_bio = $editor['bio'];
-                    $id_editor = $editor['id'];
                     $id_type = "Editor";
                     $role = 'Editor At Uniquetechcontentwriter.com';
                 }
             } elseif (!empty($author1) || !empty($author3) && empty($author2)) {
                 $author_firstname = $row['authors_firstname'];
                 $author_lastname = $row['authors_lastname'];
+                $writer_id = 'Writer-01';
                 $sql_writer = "SELECT id, firstname, lastname, image, bio 
                FROM writer 
                WHERE lastname LIKE ? OR firstname LIKE ?";
@@ -1586,7 +1582,7 @@ if (!function_exists('renderViewPost')) {
                 </div>
                 <h3 class='bodyleft_header3'>About the Author</h3>
                 <center>
-                    <a href='../authors/author.php?id=" . $id_admin . "" . $id_editor . "" . $id_writer . "&idtype=" . $id_type . "' class='aboutauthor_div'>
+                    <a href='../authors/author.php?id=" . $admin_id . "" . $editor_id . "" . $writer_id . "&idtype=" . $id_type . "' class='aboutauthor_div'>
                         <div class='aboutauthor_div_subdiv1'>
                             <img src='" . $author_image . "' alt ='Author's Image'/>
                         </div>
@@ -1698,8 +1694,8 @@ if (!function_exists('renderFrontendPageSearchResults')) {
                     $title = $result['title'];
                     $date = $result['Date'];
                     $content = $result['content'];
-                    $imagePath = $result['image_path'];
-                    $niche = $result['niche'];
+                    $imagePath = $result['image_path'] ? $result['image_path'] : ' ';
+                    $niche = $result['niche'] ? $result['niche'] : ' ';
                     $posttype = $result['posttype'];
 
                     // Truncate title if necessary
@@ -1814,7 +1810,7 @@ if (!function_exists('renderFrontendPage')) {
         foreach ($results as $result) {
             $max_length = 50;
             $id = $result['id'];
-            $title = $result['title'];
+            $title = $result['title'] ? $result['title'] : ' ';
             $date = $result['Date'];
             $content = $result['content'];
             $title = substr($title, 0, $max_length) . '...';
@@ -1872,7 +1868,7 @@ if (!function_exists('renderAuthorPage')) {
     function renderAuthorPage($database_name, $id, $role, $authorTableHook)
     {
         global $conn;
-        $getauthor_sql = "SELECT id, firstname, lastname, image, bio FROM " . $database_name . " WHERE id = " . $id . "";
+        $getauthor_sql = "SELECT id, firstname, lastname, image, bio FROM " . $database_name . " WHERE " . $authorTableHook . " = " . $id . "";
         $getauthor_result = $conn->query($getauthor_sql);
         if ($getauthor_result->num_rows > 0) {
             $author = $getauthor_result->fetch_assoc();
@@ -1936,13 +1932,13 @@ if (!function_exists('renderAuthorPage')) {
         foreach ($results as $result) {
             $max_length = 40;
             $id = $result['id'];
-            $title = $result['title'];
+            $title = $result['title'] ? $result['title'] : ' ';
             $date = $result['Date'];
             $content = $result['content'];
             $schedule = $result['schedule'];
-            $imagePath = $result['image_path'];
-            $foreignImagePath = $result['foreign_image_path'];
-            $niche = $result['niche'];
+            $imagePath = $result['image_path'] ? $result['image_path'] : ' ';
+            $foreignImagePath = $result['foreign_image_path'] ? $result['foreign_image_path'] : ' ';
+            $niche = $result['niche'] ? $result['niche'] : ' ';
             $posttype = $result['posttype'];
 
             // Truncate title safely
