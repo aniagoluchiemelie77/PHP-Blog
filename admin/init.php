@@ -2,7 +2,7 @@
 
 /** @var \mysqli $conn */
 global $conn;
-require("connect.php");
+require("../../connect.php");
 $userId = $_SESSION['id'] ?? '';
 $stmt = $conn->prepare("SELECT language FROM admin_login_info WHERE id = ?");
 $stmt->bind_param("i", $userId);

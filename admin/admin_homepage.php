@@ -10,7 +10,6 @@ $_SESSION = $tempSession;
 if (!isset($_SESSION['email']) && $_SESSION['email'] !== $tempSession['email']) {
     header("Location: login/index.php");
 }
-require("connect.php");
 include("init.php");
 require('../init.php');
 $details = getFaviconAndLogo();

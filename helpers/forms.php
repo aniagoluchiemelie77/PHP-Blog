@@ -7,7 +7,6 @@ $id = $_SESSION['id'];
 $userType = $_SESSION['user'];
 $_SESSION['status_type'] = "";
 $_SESSION['status'] = "";
-require("../connect.php");
 include('crudoperations.php');
 require('../init.php');
 $admin_base_url = "../admin/";
@@ -965,7 +964,7 @@ function savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $
                 $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
                 if ($query->execute()) {
                     $post_id = $conn->insert_id;
-                    $post_link = "http://localhost/Sample-dynamic-website/pages/view_post.php?" . $idtype . "=" . $post_id . "";
+                    $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
                     $content = "Editor " . $_SESSION['firstname'] . " added a new post (" . $post_type . ")";
                     $forUser = 1;
                     logUpdate($conn, $forUser, $content);
@@ -993,7 +992,7 @@ function savePost1($title, $subtitle, $convertedPath, $content, $niche, $link, $
                 $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
                 if ($query->execute()) {
                     $post_id = $conn->insert_id;
-                    $post_link = "http://localhost/Sample-dynamic-website/pages/view_post.php?" . $idtype . "=" . $post_id . "";
+                    $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
                     $content = "Admin " . $_SESSION['firstname'] . " added a new post (" . $post_type . ")";
                     $forUser = 1;
                     logUpdate($conn, $forUser, $content);
@@ -1343,7 +1342,7 @@ function savePost2($title, $subtitle, $convertedPath, $content, $niche, $link, $
             $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
             if ($query->execute()) {
                 $post_id = $conn->insert_id;
-                $post_link = "http://localhost/Sample-dynamic-website/pages/view_post.php?" . $idtype . "=" . $post_id . "";
+                $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
                 $content = "Editor " . $_SESSION['firstname'] . " added a new post (" . $post_type . ")";
                 $forUser = 1;
                 logUpdate($conn, $forUser, $content);
@@ -1370,7 +1369,7 @@ function savePost2($title, $subtitle, $convertedPath, $content, $niche, $link, $
             $query->bind_param("issssssssssssss", $id, $title, $niche, $convertedPath, $date, $time, $schedule, $subtitle, $link, $content, $author_firstname, $author_bio, $author_lastname, $idtype, $is_favourite);
             if ($query->execute()) {
                 $post_id = $conn->insert_id;
-                $post_link = "http://localhost/Sample-dynamic-website/pages/view_post.php?" . $idtype . "=" . $post_id . "";
+                $post_link = "https://blog.uniquetechcontentwriter.com/pages/view_post.php?" . $idtype . "=" . $post_id . "";
                 $content = "Admin " . $_SESSION['firstname'] . " added a new post (" . $post_type . ")";
                 $forUser = 1;
                 logUpdate($conn, $forUser, $content);

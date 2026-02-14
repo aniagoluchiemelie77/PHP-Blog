@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../connect.php';
+require __DIR__ . '../connect.php';
 /** @var \mysqli $conn */
 global $conn;
 if (!function_exists('logUpdate')) {

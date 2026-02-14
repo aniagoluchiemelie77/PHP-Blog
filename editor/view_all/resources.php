@@ -3,16 +3,15 @@
 /** @var \mysqli $conn */
 global $conn;
 session_start();
+        require("../init.php");
+        require('../../init.php');
 $language = $language ?? 'en';
 $translations = $translations ?? [];
 $editor_base_url = $editor_base_url ?? '';
-include("../connect.php");
-require('../../init.php');
 $resource_name = isset($_GET['resource_name']) ? $_GET['resource_name'] : null;
 $details = getFaviconAndLogo();
 $logo = $details['logo'];
 $favicon = $details['favicon'];
-require("../init.php");
 $translationFile = "../../translation_files/lang/{$language}.php";
 if (file_exists($translationFile)) {
     include $translationFile;

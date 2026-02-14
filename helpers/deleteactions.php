@@ -12,7 +12,6 @@ $action = isset($_GET['action']) ? $_GET['action'] : null;
 $resourceName = isset($_GET['resourceName']) ? $_GET['resourceName'] : null;
 $userFirstname = isset($_GET['userFirstname']) ? $_GET['userFirstname'] : null;
 $type = isset($_GET['type']) ? $_GET['type'] : null;
-include('connect.php');
 include('../helpers/crudoperations.php');
 $_SESSION['status_type'] = "";
 $_SESSION['status'] = "";

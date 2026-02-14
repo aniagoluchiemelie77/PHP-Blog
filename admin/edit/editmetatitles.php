@@ -4,7 +4,6 @@ $translations = $translations ?? [];
 $base_url = $base_url ?? '';
 session_start();
 $page_name = isset($_GET['page_name']) ? $_GET['page_name'] : "Unknown Page";
-include("../connect.php");
 require("../init.php");
 require('../../init.php');
 require('../../helpers/components.php');

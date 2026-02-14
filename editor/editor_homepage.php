@@ -3,11 +3,10 @@
 /** @var \mysqli $conn */
 global $conn;
 session_start();
+        require('../init.php');
+        include("init.php");
         $language = $language ?? 'en';
         $translations = $translations ?? [];
-require("connect.php");
-include("init.php");
-require('../init.php');
 $tempSession = $_SESSION;
 session_regenerate_id(true);
 $_SESSION = $tempSession;

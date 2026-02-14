@@ -3,7 +3,6 @@
 /** @var \mysqli $conn */
 global $conn;
 session_start();
-include("connect.php");
 $admin_id = $_SESSION['id'] ?? '1';
 $editor_id = '';
     $_SESSION['status_type'] = "";

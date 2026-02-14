@@ -3,7 +3,7 @@
 /** @var \mysqli $conn */
 global $conn;
 session_start();
-require('../connect.php');
+require('../../connect.php');
 $sql = "SELECT COUNT(*) AS new_notifications FROM updates WHERE status = 'unread'";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {

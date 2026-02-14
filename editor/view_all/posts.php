@@ -3,7 +3,6 @@ session_start();
 $language = $language ?? 'en';
 $translations = $translations ?? [];
 $editor_base_url = $editor_base_url ?? '';
-include("../connect.php");
 require('../../init.php');
 require("../init.php");
 $details = getFaviconAndLogo();

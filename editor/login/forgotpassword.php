@@ -1,6 +1,5 @@
 <?php
 session_start();
-require("../connect.php");
 require('../../init.php');
 require('../../helpers/components.php');
 $_SESSION['status_type'] = "";

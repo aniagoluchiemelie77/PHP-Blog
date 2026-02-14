@@ -4,8 +4,6 @@ $language = $language ?? 'en';
 $translations = $translations ?? [];
 $editor_base_url = $editor_base_url ?? '';
 $page_name = isset($_GET['page_name']) ? $_GET['page_name'] : "Unknown Page";
-include("../connect.php");
-require("../init.php");
 require('../../init.php');
 require('../../helpers/components.php');
 if (isset($_POST['edit_metatitle'])) {

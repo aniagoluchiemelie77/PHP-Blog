@@ -133,7 +133,7 @@ function sendEmail($email)
                     $mail->isHTML(true);
                     $mail->Subject = 'Welcome to Our Newsletter';
                     $mail->Body    = "<h1>Thank you for subscribing to our newsletter! We are excited to have you with us.</h1>
-                    <a href='http://localhost/Sample-dynamic-website/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>";
+                    <a href='https://blog.uniquetechcontentwriter.com/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>";
                     $mail->send();
                     $status_type = "Success";
                     $status = "Email Subscription Added Successfully";
@@ -227,12 +227,12 @@ function unsubscribe($email)
         $status = "Newsletter Subscription Cancelled Successfully";
         $status_type = "Success";
         return ["status" => $status, "status_type" => $status_type];
-        header('location: http://localhost/Sample-dynamic-website/');
+            header('location: https://blog.uniquetechcontentwriter.com/');
     } else {
         $status = "Newsletter Subscription Cancellation Failed";
         $status_type = "Error";
         return ["status" => $status, "status_type" => $status_type];
-        header('location: http://localhost/Sample-dynamic-website/');
+            header('location: https://blog.uniquetechcontentwriter.com/');
     }
 }
 }
@@ -264,7 +264,7 @@ function sendNewpostNotification($post_title, $post_link, $post_image, $post_sub
                                     <h1 style='padding:1rem;display:block;'>$post_title</h1>
                                     <h2 style='padding:1rem;display:block'>$post_subtitle</h2>
                                     <a href='$post_link' style='text-decoration:none;padding:10px 16px;border-radius:16px;color: white;background-color:#222;cursor:pointer;margin-right:16px;'>Read Post</a>
-                                    <a href='http://localhost/Sample-dynamic-website/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;border-radius:16px;color: white;background-color:#222;cursor:pointer;'>Unsubscribe</a>
+                                    <a href='https://blog.uniquetechcontentwriter.com/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;border-radius:16px;color: white;background-color:#222;cursor:pointer;'>Unsubscribe</a>
                                     
                                 </div>";
                 $mail->send();
@@ -302,7 +302,7 @@ function sendMessageToSubscriber($id, $message_title = null, $message_body = nul
                 $mail->Subject = "$message_title";
                 $mail->Body = "<div style='font-family: Arial, sans-serif;color:#222;width: 80%;padding:16px;'>
                                     $message_body
-                                    <a href='http://localhost/Sample-dynamic-website/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>
+                                    <a href='https://blog.uniquetechcontentwriter.com/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>
                                 </div>";
                 if ($mail->send()) {
                     $forUser = 0;
@@ -677,8 +677,8 @@ if (!function_exists('adminAccessToEditoPage')) {
         }
     }
 }
-$base_url = "http://localhost/Sample-dynamic-website/admin/";
-$editor_base_url = "http://localhost/Sample-dynamic-website/editor/";
+$base_url = "https://blog.uniquetechcontentwriter.com/admin/";
+$editor_base_url = "https://blog.uniquetechcontentwriter.com/editor/";
 
 if (php_sapi_name() !== 'cli' || defined('PHPSTAN_RUNNING')) {
     $device_type = getDeviceType();

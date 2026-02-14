@@ -55,6 +55,6 @@ if (isset($_GET['email'])) {
     $unsubscribe = unsubscribe($email);
     $_SESSION['status_type'] = $unsubscribe['status_type'];
     $_SESSION['status'] = $unsubscribe['status'];
-    header('location: http://localhost/Sample-dynamic-website/');
+    header('location: https://blog.uniquetechcontentwriter.com/');
 }
 ob_end_flush();

@@ -3,7 +3,6 @@ $language = $language ?? 'en';
 $translations = $translations ?? [];
 $base_url = $base_url ?? '';
 session_start();
-include("../connect.php");
 require("../init.php");
 require('../../init.php');
 require('../../helpers/components.php');

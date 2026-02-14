@@ -1,6 +1,6 @@
 <?php
 
-include '../connect.php'; // Ensure this includes your database connection
+include '../../connect.php'; // Ensure this includes your database connection
 
 if (isset($_POST['page_id'])) {
     global $conn;

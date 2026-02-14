@@ -5,7 +5,6 @@ $language = $language ?? 'en';
 $translations = $translations ?? [];
 $base_url = $base_url ?? '';
 session_start();
-require("../connect.php");
 require('../../init.php');
 require("../../helpers/components.php");
 $details = getFaviconAndLogo();

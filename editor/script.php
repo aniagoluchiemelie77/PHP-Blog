@@ -3,7 +3,6 @@
 /** @var \mysqli $conn */
 global $conn;
 session_start();
-include("connect.php");
 require("../helpers/crudoperations.php");
 $_SESSION['status_type'] = " ";
 $_SESSION['status'] = " ";

@@ -3,14 +3,12 @@ session_start();
 $language = $language ?? 'en';
 $translations = $translations ?? [];
 $editor_base_url = $editor_base_url ?? '';
-require("../connect.php");
 require('../../init.php');
 require('../../helpers/components.php');
 $details = getFaviconAndLogo();
 $logo = $details['logo'];
 $favicon = $details['favicon'];
 $content = "";
-require("../init.php");
 $translationFile = "../../translation_files/lang/{$language}.php";
 if (file_exists($translationFile)) {
     include $translationFile;

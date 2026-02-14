@@ -2,8 +2,7 @@
 session_start();
 $language = $language ?? 'en';
 $translations = $translations ?? [];
-$editor_base_url = $editor_base_url ?? '';
-require("../connect.php");
+        $editor_base_url = $editor_base_url ?? '';
 require("../init.php");
 require('../../init.php');
 require('../../helpers/components.php');

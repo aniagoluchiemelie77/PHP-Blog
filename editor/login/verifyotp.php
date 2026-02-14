@@ -3,7 +3,6 @@
     /** @var \mysqli $conn */
     global $conn;
 session_start();
-require("../connect.php");
 require('../../init.php');
 require('../../helpers/components.php');
 
