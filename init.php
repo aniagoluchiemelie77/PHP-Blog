@@ -133,7 +133,7 @@ function sendEmail($email)
                     $mail->isHTML(true);
                     $mail->Subject = 'Welcome to Our Newsletter';
                     $mail->Body    = "<h1>Thank you for subscribing to our newsletter! We are excited to have you with us.</h1>
-                    <a href='https://blog.uniquetechcontentwriter.com/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>";
+                    <a href='http://localhost/Sample-dynamic-website/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>";
                     $mail->send();
                     $status_type = "Success";
                     $status = "Email Subscription Added Successfully";
@@ -227,12 +227,12 @@ function unsubscribe($email)
         $status = "Newsletter Subscription Cancelled Successfully";
         $status_type = "Success";
         return ["status" => $status, "status_type" => $status_type];
-            header('location: https://blog.uniquetechcontentwriter.com/');
+        header('location: http://localhost/Sample-dynamic-website/');
     } else {
         $status = "Newsletter Subscription Cancellation Failed";
         $status_type = "Error";
         return ["status" => $status, "status_type" => $status_type];
-            header('location: https://blog.uniquetechcontentwriter.com/');
+        header('location: http://localhost/Sample-dynamic-website/');
     }
 }
 }
@@ -302,7 +302,7 @@ function sendMessageToSubscriber($id, $message_title = null, $message_body = nul
                 $mail->Subject = "$message_title";
                 $mail->Body = "<div style='font-family: Arial, sans-serif;color:#222;width: 80%;padding:16px;'>
                                     $message_body
-                                    <a href='https://blog.uniquetechcontentwriter.com/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>
+                                    <a href='http://localhost/Sample-dynamic-website/forms.php?email=$email' style='text-decoration:none;padding:10px 16px;margin:8px auto;border-radius:1rem;color:white;background-color:#222;cursor:pointer;'>unsubscribe</a>
                                 </div>";
                 if ($mail->send()) {
                     $forUser = 0;
