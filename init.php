@@ -3,7 +3,7 @@ require("connect.php");
 require 'vendor/autoload.php';
 require('helpers/crudoperations.php');
 
-use Dotenv\Dotenv;
+
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Cloudinary\Configuration\Configuration;
 use Cloudinary\Api\Upload\UploadApi;
@@ -25,8 +25,6 @@ if (!isset($conn)) {
     };
 }
 
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->safeLoad();
 $cloud_name = $_ENV['CLOUDINARY_CLOUD_NAME'];
 $api_key = $_ENV['CLOUDINARY_API_KEY'];
 $api_secret = $_ENV['CLOUDINARY_API_SECRET'];
