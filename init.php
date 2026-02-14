@@ -5,7 +5,7 @@ require('helpers/crudoperations.php');
 
 
 use Stichoza\GoogleTranslate\GoogleTranslate;
-use Cloudinary\Configuration\Configuration;
+use Cloudinary\Configuration\Configuration as CloudinaryConfig;
 use Cloudinary\Api\Upload\UploadApi;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -29,7 +29,7 @@ $cloud_name = $_ENV['CLOUDINARY_CLOUD_NAME'];
 $api_key = $_ENV['CLOUDINARY_API_KEY'];
 $api_secret = $_ENV['CLOUDINARY_API_SECRET'];
 $email_password = $_ENV['EMAIL_PASSWORD'];
-Configuration::instance([
+CloudinaryConfig::instance([
     'cloud' => [
         'cloud_name' => $cloud_name,
         'api_key' => $api_key,
