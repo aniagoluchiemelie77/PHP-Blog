@@ -1,6 +1,50 @@
 RewriteEngine On
+
+# ---------------------------------------------------------
+# Force HTTPS
+# ---------------------------------------------------------
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ---------------------------------------------------------
+# Security Hardening
+# ---------------------------------------------------------
+
+# Disable directory listing
+Options -Indexes
+
+# Hide server info
+ServerSignature Off
+ServerTokens Prod
+
+# Block sensitive files
+<FilesMatch "\.(env|ini|log|sh|sql|bak|config|htaccess)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Security headers
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# ---------------------------------------------------------
+# Prevent rewriting existing files or directories
+# ---------------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ---------------------------------------------------------
+# Auto-append .php if a matching file exists
+# ---------------------------------------------------------
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [NC,L]
+RewriteRule ^(.+)$ $1.php [NC,L]
+
+# ---------------------------------------------------------
+# Clean URL routes
+# ---------------------------------------------------------
 RewriteRule ^pages/About-Us$ pages/aboutus.php [NC,L]
 RewriteRule ^pages/Advertise-With-Us$ pages/advertisewithus.php [NC,L]
 RewriteRule ^pages/Artificial-Intelligence$ pages/artificialintelligence.php [NC,L]
@@ -17,5 +61,6 @@ RewriteRule ^pages/Terms-Of-Service$ pages/termsofservice.php [NC,L]
 RewriteRule ^pages/View-Post$ pages/view_post.php [NC,L]
 RewriteRule ^pages/Vulnerabilities-And-Threats$ pages/vulnerabilitiesandthreats.php [NC,L]
 RewriteRule ^pages/Work-With-Us$ pages/workwithus.php [NC,L]
-RewriteRule ^authors/Author$ authors/author.php [NC,L]
 
+# Authors
+RewriteRule ^authors/Author$ authors/author.php [NC,L]
